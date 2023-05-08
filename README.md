@@ -1,0 +1,2 @@
+# minimon
+Mesh monitoring stack
