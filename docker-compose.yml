@@ -1,0 +1,18 @@
+version: "2.1"
+
+volumes:
+  influxdb-data:
+  influxdb-config:
+ 
+services:
+  influxdb:
+    build: services/influxdb
+    privileged: true
+    ports:
+      - '8086:8086'
+      - '25826:25826/udp'
+    volumes:
+       - influxdb-config:/etc/influxdb/
+       - influxdb-data:/var/lib/influxdb
+    restart: unless-stopped   
+    
