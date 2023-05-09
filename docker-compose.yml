@@ -3,6 +3,8 @@ version: "2.1"
 volumes:
   influxdb-data:
   influxdb-config:
+  grafana-data:
+  grafana-config:
  
 services:
   influxdb:
@@ -14,5 +16,14 @@ services:
     volumes:
        - influxdb-config:/etc/influxdb/
        - influxdb-data:/var/lib/influxdb
-    restart: unless-stopped   
+    restart: unless-stopped
+  grafana:
+    build: services/grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana/
+      - grafana-config:/etc/grafana/
+    restart: unless-stopped
+     
     
