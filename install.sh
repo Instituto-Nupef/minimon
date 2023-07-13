@@ -26,7 +26,14 @@ git clone https://github.com/Instituto-Nupef/minimon.git
 
 echo "Acessando pasta e iniciando containers..."
 cd minimon/
-docker-compose up -d
+
+# Verificar se o container já está em execução
+if docker-compose ps | grep -q "Up"; then
+    echo "O container já está em execução."
+else
+    echo "O container não está em execução. Iniciando container..."
+    docker-compose up -d
+fi
 
 echo "A instalação e configuração estão concluídas."
 echo "Para conectar esta máquina virtual ao Zerotier, execute o seguinte comando:"
