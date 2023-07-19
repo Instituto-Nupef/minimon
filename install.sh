@@ -7,7 +7,7 @@ curl -s https://install.zerotier.com | sudo bash
 # Instalação do Docker e Docker-compose
 echo "Instalando Docker e Docker-compose..."
 apt-get update
-apt-get install -y ca-certificates curl gnupg
+apt-get install -y ca-certificates curl gnupg fail2ban
 
 install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
