@@ -5,7 +5,10 @@ volumes:
   influxdb-config:
   grafana-data:
   grafana-config:
- 
+  certbot-etc:/etc/letsencrypt
+  certbot-var:/var/lib/letsencrypt
+  ssl:/etc/grafana/ssl
+
 services:
   influxdb:
     build: services/influxdb
@@ -17,6 +20,7 @@ services:
        - influxdb-config:/etc/influxdb/
        - influxdb-data:/var/lib/influxdb
     restart: unless-stopped
+
   grafana:
     build: services/grafana
     ports:
@@ -25,5 +29,21 @@ services:
       - grafana-data:/var/lib/grafana/
       - grafana-config:/etc/grafana/
     restart: unless-stopped
-     
-    
+    environment:
+      - GF_SERVER_PROTOCOL=${GF_SERVER_PROTOCOL}
+      - GF_SERVER_CERT_FILE=${GF_SERVER_CERT_FILE}
+      - GF_SERVER_CERT_KEY=${GF_SERVER_CERT_KEY}
+    volumes:
+      - grafana-data:/var/lib/grafana/
+      - grafana-config:/etc/grafana/
+      - ./ssl:/etc/grafana/ssl
+
+  certbot:
+    image: certbot/certbot
+    command: certonly --webroot --webroot-path=/var/www/html --email ${CERTBOT_EMAIL} --agree-tos -d ${CERTBOT_DOMAIN}
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+    deploy:
+      replicas: 1
+    entrypoint: /bin/sh -c "trap : TERM INT; sleep infinity & wait"
