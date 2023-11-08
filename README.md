@@ -1,7 +1,3 @@
-* Script adicionando certificado ssl para https
-* Script ainda nao testado
-
-
 # minimon - Mesh monitoring stack
 Stand alone version of graunamon - a grauninha component.
 
