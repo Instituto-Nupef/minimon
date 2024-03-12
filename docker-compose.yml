@@ -16,6 +16,7 @@ services:
     volumes:
        - influxdb-config:/etc/influxdb/
        - influxdb-data:/var/lib/influxdb
+       - /root/dumps:/root/dumps
     restart: unless-stopped
   grafana:
     build: services/grafana
